@@ -78,5 +78,17 @@ namespace SimulacionParcial
         {
             CargarDataGrid(datos.OrderByDescending(d => d.magnitud).ToList());
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            double promedio = 0;
+            foreach(Temperatura temperatura in temperaturas)
+            {
+                promedio += temperatura.magnitud;
+            }
+            promedio /= temperaturas.Count;
+            MessageBox.Show("El promedio de temperaturas es de: " + promedio);
+  
+        }
     }
 }
