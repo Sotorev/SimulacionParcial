@@ -40,6 +40,7 @@ namespace SimulacionParcial
         private void Form1_Load(object sender, EventArgs e)
         {
             CargarDepartamentos("Departamentos.txt");
+            CargarTemperaturas("Temperaturas.txt");
             foreach(Departamento departamento in departamentos)
             {
                 comboBox1.Items.Add(departamento.nombre);
@@ -58,6 +59,23 @@ namespace SimulacionParcial
             };
             temperaturas.Add(temperatura);
             GuardarDatos("Temperaturas.txt");
+        }
+        private void CargarTemperaturas(string file)
+        {
+            FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs);
+            while (sr.Peek() != -1)
+            {
+                Temperatura temperatura = new Temperatura()
+                {
+                    id = Convert.ToInt32(sr.ReadLine()),
+                    magnitud = Convert.ToDouble(sr.ReadLine()),
+                    fecha = Convert.ToDateTime(sr.ReadLine())
+                };
+                temperaturas.Add(temperatura);
+            }
+            sr.Close();
+            fs.Close();
         }
         private void GuardarDatos(string file)
         {

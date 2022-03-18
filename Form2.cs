@@ -24,7 +24,7 @@ namespace SimulacionParcial
         {
             FileStream fs = new FileStream("Departamentos.txt", FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(fs);
-            while(sr.Peek() != -1)
+            while (sr.Peek() != -1)
             {
                 Departamento departamento = new Departamento()
                 {
@@ -37,7 +37,7 @@ namespace SimulacionParcial
             fs.Close();
             fs = new FileStream("Temperaturas.txt", FileMode.Open, FileAccess.Read);
             sr = new StreamReader(fs);
-            while(sr.Peek()!= -1)
+            while (sr.Peek() != -1)
             {
                 Temperatura temperatura = new Temperatura()
                 {
@@ -50,15 +50,19 @@ namespace SimulacionParcial
             sr.Close();
             fs.Close();
         }
-        private void CargarDataGridView()
+        private void ActualizarDatos()
         {
-            Datos dato = new Datos();
-            foreach(Temperatura temp in temperaturas)
+            foreach (Temperatura temp in temperaturas)
             {
+                Datos dato = new Datos();
                 dato.nombre = departamentos.Find(dep => dep.id == temp.id).nombre;
                 dato.magnitud = temp.magnitud;
+                datos.Add(dato);
             }
-            datos.Add(dato);
+            
+        }
+        void CargarDataGrid(List<Datos> datos)
+        {
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = datos;
             dataGridView1.Refresh();
@@ -66,7 +70,13 @@ namespace SimulacionParcial
         private void Form2_Load(object sender, EventArgs e)
         {
             LeerDatos();
-            CargarDataGridView();
+            ActualizarDatos();
+            CargarDataGrid(datos);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CargarDataGrid(datos.OrderByDescending(d => d.magnitud).ToList());
         }
     }
 }
